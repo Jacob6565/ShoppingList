@@ -1,0 +1,31 @@
+Skal gøre sådan at viewmodels og models har et interface, da det jo er med til at gøre koden nemmere at vedligholde, da det dermed er nemmere at skifte ting ud, da man blot skal lave en ny klasse som implementere interfacet. 
+
+	Så lavet det med MVVM færdigt. 
+
+Måske gøre sådan, at man inde i fill kan press-and-hold for så at få muligheden for at slette varen eller redigere den.
+
+	Gjort sådan at man ikke laver en ny instans af hver page hver gang man går til et.
+
+Gjort sådan at navngivning er korrekt.
+
+	Lavet et stylesheet, bare generelt style det, så UX bliver bedst mulig.
+
+	Måske også gøre sådan, at de forskellige views ikke instantiere deres viewmodel i sig, men at de får den igennem deres 	konstruktor. Du ved ligesom til C# eksamen, så måske skal vi også bruge interfaces for viewmodels. Og huske at main er 	nærmest der i App.xaml.cs
+
+Være sikker på at mode for binding er sat korrekt, fx ikke TwoWay hvis det alligevel kun går fra view til viewmodel, så er det vist OneWayToSource.
+
+Samle alt der er tilfælles i baseViewModel.
+
+	Fjerne unødvendige using's
+
+	Kommenterer det hele igen.
+
+	Skal gøre sådan, at der kommer beskeder op, du ved med DisplayAlert, skal bare lige finde ud af hvordan det virker.
+
+	Skal lige finde ud af hvordan man fikser det med update. En umiddelbare løsning ville være at override OnAppearing i 	codebehind og så kalde en funktion i den tilhørende viewmodel, som så sørger for at update. Men ved ikke om der er lovligt, det 	er det.
+
+Slette alle navne på xaml elementer, da man ikke referer til dem længere.
+
+Det skal være sådan, at når deletemode og clearbtn mode bliver disablet, så skal IsDeletemode også sættes til false. Det skal også være sådan, at man faktisk kan se at deletemode er aktiv.
+
+Skal lige tjekke omkring det med hvordan .Contain virker, såen hvordan den finder ud om der allerede er en i listen, såen bruger den compareto eller equals

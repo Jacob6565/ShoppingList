@@ -1,0 +1,3 @@
+Man kunne gøre det fuldt MVVM, men det virker lidt besværligt fx i forhold til hvordan man får sendt indholdet af de tre entries med commandoen i AddBookPage.xaml.
+
+Man kunne gøre sådan, at listen med books er statisk i en klasse, som så også har metoder til at hente fra databasen og skrive til den. Så når programmet starter, så loader man ind i listen og så er det den man opdatere og alle views bruger mens programmet kører og så når programmet lukkes, så skrives den ind. Her skal man så sikre at den også gemmer hvis nu der crashes eller lignende. Du ved, lidt ligesom at Word kun gemmer når du siger det osv., hvilket notepad på telefonen også gør.

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BooksMVVM.View.AddBookPage"
+             Title="Add Product">
+    <!--This stacklayout encapsulates the entire page-->
+    <StackLayout x:Name="AddStackLayout">
+        <!--An entry for each type of input-->
+        <Entry x:Name="nameEntry"
+               Placeholder="Enter name of the product"
+               Style="{StaticResource entryStyle}"
+               Text="{Binding NameOfBookToAdd, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}"/>
+        <!--<ListView x:Name="ListView_Suggestions">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+-->
+        <Entry x:Name="shopEntry"
+               Placeholder="Enter shop of the product"
+               Style="{StaticResource entryStyle}"
+               Text="{Binding ShopOfBookToAdd, Mode=TwoWay}"/>
+        <Entry x:Name="priceEntry"
+               Placeholder="Enter price of the product"
+               Style="{StaticResource entryStyle}"
+               Text="{Binding PriceOfBookToAdd, Mode=TwoWay}" />
+        <!--Then a stacklayout for the buttons-->
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Add"
+                    Style="{StaticResource btnStyle}"
+                    Command="{Binding AddBookCommand}"/>
+            <Button Text="Delete"
+                    Style="{StaticResource btnStyle}"
+                    Command="{Binding DeleteBookCommand}"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

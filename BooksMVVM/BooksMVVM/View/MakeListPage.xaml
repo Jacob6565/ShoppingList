@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BooksMVVM.View.MakeListPage"
+             Title="Fill shoppinglist">
+   
+        <!--This grid encapsulates the entire page-->
+        <Grid>
+            <!--First row for the listview and therfore a non-fix size. Second for the buttons-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <!--Represents all the products from the database-->
+            <ListView x:Name="ListView_MakeList"
+                      Grid.Row="0"
+                      ItemsSource="{Binding Books}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                      BackgroundColor="Transparent">
+                <!--Determines how each element should be represented-->
+                <!--General design:
+                
+                  xxxxxxxxxxxxxxxxxxxxxx
+                  |  Text   |          |
+                  |xxxxxxxxx|   label  |
+                  |  Text   |          |
+                  xxxxxxxxxxxxxxxxxxxxxx
+                
+                -->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!--Using the ViewCell since TextCell was not enough-->
+                        <ViewCell>
+                            <!--Main grid with two columns, one for text and one for label-->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="50" />
+                                </Grid.ColumnDefinitions>
+                                <!--The text should be on the different lines therfore this-->
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>                                    
+                                    <Label Margin="15,0,0,0"
+                                           VerticalOptions="Center"
+                                           Text="{Binding NameAndPrice}"                                           
+                                           Grid.Row="0" 
+                                           TextColor="OrangeRed"/>
+                                    <Label Margin="15,0,0,0"       
+                                           VerticalOptions="Center"
+                                           Text="{Binding Shop}"
+                                           Grid.Row="1" 
+                                           TextColor="Black"/>
+                                </Grid>
+                                <Label Grid.Column="1"
+                                       Text="√"
+                                       TextColor="#2199e8"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       IsVisible="{Binding IsVisible}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <!--Used to contain the two buttons-->
+            <StackLayout Orientation="Horizontal" Grid.Row="1">
+            <Button Text="Sort By Name"
+                    Style="{StaticResource btnStyle}"
+                    Command="{Binding SortByName_Command}"/>
+            <Button Text="Sort By Shop"
+                    Style="{StaticResource btnStyle}"
+                    Command="{Binding SortByShop_Command}" />
+        </StackLayout>
+        </Grid>    
+</ContentPage>
