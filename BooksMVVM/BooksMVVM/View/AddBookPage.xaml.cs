@@ -21,11 +21,11 @@ namespace BooksMVVM.View
         /// <summary>
         /// Stores the corresponding viewmodel
         /// </summary>
-        private AddBookPageViewModel viewModel;
+        private IAddBookPageViewModel viewModel;
         /// <summary>
         /// Creates a new instance of the AddBookPage class.
         /// </summary>
-        public AddBookPage(AddBookPageViewModel viewModel)
+        public AddBookPage(IAddBookPageViewModel viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;

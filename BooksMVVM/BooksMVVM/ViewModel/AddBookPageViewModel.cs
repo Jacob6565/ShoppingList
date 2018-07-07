@@ -13,7 +13,7 @@ namespace BooksMVVM.ViewModel
     /// <summary>
     /// ViewModel for the AddBookPage
     /// </summary>
-    public class AddBookPageViewModel : BaseViewModel, INotifyPropertyChanged
+    public class AddBookPageViewModel : BaseViewModel, IAddBookPageViewModel 
     {
         #region IO-Messages
         private string Ok { get => "Ok!"; }
@@ -82,17 +82,17 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Command for adding the book to the database.
         /// </summary>
-        public ICommand AddBookCommand { get; private set; }
+        public ICommand AddBookCommand { get; set; }
 
         /// <summary>
         /// Command for deleting the book from the database.
         /// </summary>
-        public ICommand DeleteBookCommand { get; private set; }
+        public ICommand DeleteBookCommand { get; set; }
 
         /// <summary>
         /// Deletes the book from the database
         /// </summary>
-        public void DeleteBookCommand_Execute()
+        private void DeleteBookCommand_Execute()
         {
             //Creates the book to be removed.
             Book bookToRemove = new Book()
@@ -123,7 +123,7 @@ namespace BooksMVVM.ViewModel
         /// expressed by the entries can be added or deleted.
         /// </summary>
         /// <returns></returns>
-        public bool CanExecute()
+        private bool CanExecute()
         {
             return ErrorCheckingAddingProduct();
         }
@@ -131,7 +131,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Contains the logic for adding a product.
         /// </summary>
-        public void AddBookCommand_Execute()
+        private void AddBookCommand_Execute()
         {
             Book bookToAdd = new Book()
             {

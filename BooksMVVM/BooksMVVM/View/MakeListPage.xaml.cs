@@ -13,11 +13,11 @@ namespace BooksMVVM.View
         /// <summary>
         /// Used to store the corresponding viewmodel.
         /// </summary>
-        private MakeListPageViewModel viewModel;
+        private IMakeListPageViewModel viewModel;
         /// <summary>
         /// Creates an instance of the MakeListPage class.
         /// </summary>
-		public MakeListPage (MakeListPageViewModel viewModel)
+		public MakeListPage (IMakeListPageViewModel viewModel)
 		{
             InitializeComponent ();
             this.viewModel = viewModel;

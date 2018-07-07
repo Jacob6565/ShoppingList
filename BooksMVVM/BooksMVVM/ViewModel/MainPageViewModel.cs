@@ -13,7 +13,7 @@ namespace BooksMVVM.ViewModel
     /// <summary>
     /// ViewModel used for the MainPage
     /// </summary>
-    public class MainPageViewModel : BaseViewModel
+    public class MainPageViewModel : BaseViewModel, IMainPageViewModel
     {
         /// <summary>
         /// Delegate used to retrieve visible books.
@@ -64,7 +64,7 @@ namespace BooksMVVM.ViewModel
             {
                 return _totalAmount;
             }
-            private set
+            set
             {
                 _totalAmount = value;
                 NotifyPropertyChanged();
@@ -73,34 +73,35 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Used to perform navigation between pages.
         /// </summary>
-        public INavigation Navigation;
+        public INavigation Navigation { get => navigation; set => navigation = value; }
+        private INavigation navigation;
 
-        
+
         /// <summary>
         /// Command for the "ADD" toolbaritem.
         /// </summary>
-        public ICommand ToolbarItem_ADD_Command { get; private set; }
+        public ICommand ToolbarItem_ADD_Command { get; set; }
 
         /// <summary>
         /// Command for the "FILL" toolbaritem.
         /// </summary>
-        public ICommand ToolbarItem_FILL_Command { get; private set; }
+        public ICommand ToolbarItem_FILL_Command { get; set; }
 
         /// <summary>
         /// Command for the Clear button.
         /// </summary>
-        public ICommand ClearBtn_Command { get; private set; }
+        public ICommand ClearBtn_Command { get; set; }
 
         /// <summary>
         /// Command for the Delete mode button.
         /// </summary>
-        public ICommand DeleteModeBtn_Command { get; private set; }
+        public ICommand DeleteModeBtn_Command { get; set; }
 
 
         /// <summary>
         /// Defines the behaviour of the DeleteMode button.
         /// </summary>
-        public void DeleteModeBtn_Command_Execute()
+        private void DeleteModeBtn_Command_Execute()
         {
             IsDeleteMode = !IsDeleteMode;
         }
@@ -109,7 +110,7 @@ namespace BooksMVVM.ViewModel
         /// Return a boolean indicate if the DeleteMode button can be used.
         /// </summary>
         /// <returns></returns>
-        public bool DeleteModeBtn_Command_CanExecute()
+        private bool DeleteModeBtn_Command_CanExecute()
         {
             return Books.Count == 0 ? false : true;
         }
@@ -117,7 +118,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Defines the behaviour of the Clear button.
         /// </summary>
-        public void ClearBtn_Command_Execute()
+        private void ClearBtn_Command_Execute()
         {
             List<Book> changedBooks = Books.ToList();
             changedBooks.ForEach(book => book.IsVisible = false);
@@ -131,7 +132,7 @@ namespace BooksMVVM.ViewModel
         /// Return a boolean indicate if the DeleteMode button can be used.
         /// </summary>
         /// <returns></returns>
-        public bool ClearBtn_Command_CanExecute()
+        private bool ClearBtn_Command_CanExecute()
         {
             return Books.Count == 0 ? false : true;
         }
@@ -139,7 +140,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Defines the behaviour of the toolbar item "ADD".
         /// </summary>
-        public void ToolbarItem_ADD_Command_Execute()
+        private void ToolbarItem_ADD_Command_Execute()
         {
             Navigation.PushAsync(addBookPage);
         }
@@ -147,7 +148,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Defines the behaviour of the toolbar item "FILL".
         /// </summary>
-        public void ToolbarItem_FILL_Command_Execute()
+        private void ToolbarItem_FILL_Command_Execute()
         {
             Navigation.PushAsync(makeListPage);
         }
@@ -176,13 +177,13 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Gets or sets whether delete mode is enabled.
         /// </summary>
-        public bool IsDeleteMode { get; private set; } = false;
-        
+        private bool IsDeleteMode { get; set; } = false;
+
         /// <summary>
         /// Defines the behaviour of selecting an item in the listview if delete mode is enabled.
         /// </summary>
         /// <param name="SelectedItem"></param>
-        public void IfDeleteMode(Book SelectedItem)
+        private void IfDeleteMode(Book SelectedItem)
         {
             if (IsDeleteMode)
             {

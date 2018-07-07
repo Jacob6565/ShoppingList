@@ -8,11 +8,11 @@ namespace BooksMVVM.View
     /// </summary>
 	public partial class MainPage : ContentPage
 	{
-        private MainPageViewModel viewModel;
+        private IMainPageViewModel viewModel;
         /// <summary>
         /// Creates an instance of the MainPage class.
         /// </summary>
-        public MainPage(MainPageViewModel viewModel)
+        public MainPage(IMainPageViewModel viewModel)
 		{
             InitializeComponent();
             //Assign the navigation, so the viewmodel can navigate between pages.

@@ -33,14 +33,14 @@ namespace BooksMVVM
             DB_PATH = path;
 
             //Instansiates the different viewmodels and pages.
-            AddBookPageViewModel addBookPageViewModel = new AddBookPageViewModel();
-            MakeListPageViewModel makeListPageViewModel = new MakeListPageViewModel();
-            MakeListPage makeListPage = new MakeListPage(makeListPageViewModel);
+            IAddBookPageViewModel addBookPageViewModel = new AddBookPageViewModel();
             AddBookPage addBookPage = new AddBookPage(addBookPageViewModel);
+            IMakeListPageViewModel makeListPageViewModel = new MakeListPageViewModel();
+            MakeListPage makeListPage = new MakeListPage(makeListPageViewModel);
             //Not sure if this violates MVVM, but it needs them to navigate between pages.
             //One way to fix this could maybe be to simple have to codebehind handle the navigation
             //but I am not sure if it violates MVVM.
-            MainPageViewModel mainPageViewModel = new MainPageViewModel(addBookPage, makeListPage);
+            IMainPageViewModel mainPageViewModel = new MainPageViewModel(addBookPage, makeListPage);
             MainPage mainPage = new MainPage(mainPageViewModel);
             NavigationPage navigationPage = new NavigationPage(mainPage)
             {

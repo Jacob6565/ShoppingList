@@ -9,12 +9,12 @@ namespace BooksMVVM.ViewModel
     /// <summary>
     /// The ViewModel used for the MakeListPage
     /// </summary>
-    public class MakeListPageViewModel : BaseViewModel
+    public class MakeListPageViewModel : BaseViewModel, IMakeListPageViewModel
     {
         /// <summary>
         /// Used to determines how to sort the ListView. Standard is by shop.
         /// </summary>
-        Comparison<Book> comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
+        private Comparison<Book> comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
 
         /// <summary>
         /// Initializes a new instance of the MakeListPageViewModel class.
@@ -58,7 +58,7 @@ namespace BooksMVVM.ViewModel
         /// Inverts the visibility of the currently selected book and updates db.
         /// </summary>
         /// <param name="selectedBook"></param>
-        public void InvertVisibilityOfBook(Book selectedBook)
+        private void InvertVisibilityOfBook(Book selectedBook)
         {
             Book bookToChange = Books.ToList().Find(book => selectedBook.ID == book.ID);
             bookToChange.IsVisible = !bookToChange.IsVisible;
@@ -69,17 +69,17 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Command for sorting the listView by Name.
         /// </summary>
-        public ICommand SortByName_Command { get; private set; }
+        public ICommand SortByName_Command { get; set; }
 
         /// <summary>
         /// Command for sorting the listView by Shop.
         /// </summary>
-        public ICommand SortByShop_Command { get; private set; }
+        public ICommand SortByShop_Command { get; set; }
 
         /// <summary>
         /// Defines the behaviour for SortByName Command.
         /// </summary>
-        public void SortByName_Command_Execute()
+        private void SortByName_Command_Execute()
         {
             comparison = new Comparison<Book>((bookX, bookY) => bookX.Name.CompareTo(bookY.Name));
             Books = DatabaseHelper.RetrieveBooksFromDatabase(comparison);
@@ -89,7 +89,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Defines the behaviour for SortByShop Command.
         /// </summary>
-        public void SortByShop_Command_Execute()
+        private void SortByShop_Command_Execute()
         {
             comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
             Books = DatabaseHelper.RetrieveBooksFromDatabase(comparison);
@@ -99,7 +99,7 @@ namespace BooksMVVM.ViewModel
         /// Return a boolean indicating whether the listview can be sorted.
         /// </summary>
         /// <returns></returns>
-        public bool CanListBeSorted()
+        private bool CanListBeSorted()
         {
             return Books.Count == 0 ? false : true;
         }
