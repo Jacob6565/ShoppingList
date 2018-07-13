@@ -5,7 +5,7 @@ using System;
 namespace BooksMVVM.Model
 {
     /// <summary>
-    /// Representing a product.
+    /// Class representing a product.
     /// </summary>
     public class Book : IProduct //No need for INotifyPropertyChanged since ObservableCollection is used.
     {
