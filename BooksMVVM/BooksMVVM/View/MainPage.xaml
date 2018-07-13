@@ -23,22 +23,22 @@
     <!--ListView's itemsource is the local representation of the products from the database-->
     <ListView Grid.Row="0"
               ItemsSource="{Binding Books}"
-              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+              SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}"
               Style="{StaticResource listViewStyle}">
         <!--Defining how each element in the listview should look like-->
         <ListView.ItemTemplate>
-            <DataTemplate>
-                    <TextCell Text="{Binding NameAndPrice}"
+            <DataTemplate>                    
+                        <TextCell Text="{Binding NameAndPrice}"
                               Detail="{Binding Shop}"
                               TextColor="OrangeRed"                              
-                              DetailColor="Black"/>
+                              DetailColor="Black"
+                              />                    
                 </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-        
+               
         <!--Label for representing the total price-->
-        <Label x:Name="TotalAmountLabel"
-               VerticalOptions="Center"
+        <Label VerticalOptions="Center"
                HorizontalOptions="Center"
                Grid.Row="1"
                Text="{Binding TotalAmount, StringFormat='Total: {0} kr'}"/>
@@ -51,13 +51,14 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Text ="Clear" 
+            <Button Grid.Column="0" 
+                    Text ="Clear" 
                     Style="{StaticResource btnStyle}"
                     Command="{Binding ClearBtn_Command}" />
             <Button Grid.Column="1"
                     Text="Delete Mode"
                     Style="{StaticResource btnStyle}"
-                    Command="{Binding DeleteModeBtn_Command}" />
+                    Command="{Binding DeleteModeBtn_Command}"/>
         </Grid>
     </Grid>
 </ContentPage>

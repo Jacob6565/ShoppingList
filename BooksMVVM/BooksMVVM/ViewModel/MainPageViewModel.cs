@@ -103,7 +103,7 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         private void DeleteModeBtn_Command_Execute()
         {
-            IsDeleteMode = !IsDeleteMode;
+            IsDeleteMode = !IsDeleteMode;            
         }
 
         /// <summary>
@@ -112,7 +112,9 @@ namespace BooksMVVM.ViewModel
         /// <returns></returns>
         private bool DeleteModeBtn_Command_CanExecute()
         {
-            return Books.Count == 0 ? false : true;
+            bool returnvalue = Books.Count == 0 ? false : true;
+            if (!returnvalue) IsDeleteMode = false;
+            return returnvalue;
         }
 
         /// <summary>
@@ -124,6 +126,7 @@ namespace BooksMVVM.ViewModel
             changedBooks.ForEach(book => book.IsVisible = false);
             DatabaseHelper.UpdateBooksInDatabase(changedBooks);
             Books = DatabaseHelper.RetrieveBooksFromDatabase(GetVisibleBooks);
+            TotalAmount = 0;
             ((Command)DeleteModeBtn_Command).ChangeCanExecute();
             ((Command)ClearBtn_Command).ChangeCanExecute();
         }
@@ -166,8 +169,9 @@ namespace BooksMVVM.ViewModel
                 _selectedItem = value;
                 NotifyPropertyChanged();
                 //If delete mode is enabled, do the following:
-                IfDeleteMode(value);
-                
+                if (IsDeleteMode)
+                    IfDeleteMode(value);
+
                 //Reevaluate if the buttons can be used.
                 ((Command)DeleteModeBtn_Command).ChangeCanExecute();
                 ((Command)ClearBtn_Command).ChangeCanExecute();
@@ -177,16 +181,14 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Gets or sets whether delete mode is enabled.
         /// </summary>
-        private bool IsDeleteMode { get; set; } = false;
+        public bool IsDeleteMode { get; set; } = false;
 
         /// <summary>
         /// Defines the behaviour of selecting an item in the listview if delete mode is enabled.
         /// </summary>
         /// <param name="SelectedItem"></param>
         private void IfDeleteMode(Book SelectedItem)
-        {
-            if (IsDeleteMode)
-            {
+        {            
                 //Finds the selected product.
                 Book bookToChange = Books.ToList().Find(book => SelectedItem.ID == book.ID);
                 bookToChange.IsVisible = false;
@@ -194,7 +196,7 @@ namespace BooksMVVM.ViewModel
                 DatabaseHelper.UpdateBookInDatabase(bookToChange);
                 //Then updating the local representation aswell.
                 Books = DatabaseHelper.RetrieveBooksFromDatabase(GetVisibleBooks);
-            }
+                TotalAmount -= SelectedItem.Price;
         }
 
         /// <summary>

@@ -12,8 +12,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <!--Represents all the products from the database-->
-            <ListView x:Name="ListView_MakeList"
-                      Grid.Row="0"
+            <ListView Grid.Row="0"
                       ItemsSource="{Binding Books}"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                       BackgroundColor="Transparent">

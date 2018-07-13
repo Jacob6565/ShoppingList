@@ -70,10 +70,10 @@ namespace BooksMVVM.Model
         /// Used to determine if two products are equal.
         /// </summary>
         /// <param name="other"></param>
-        /// <returns></returns>
+        /// <returns></returns>s
         bool IEquatable<IProduct>.Equals(IProduct other)
         {
-            return this.Name.Equals(other.Name) /*&& this.Shop.Equals(other.Shop)*/;
+            return this.Name.Equals(other.Name) && this.Shop.Equals(other.Shop);
         }
     }
 }
