@@ -25,14 +25,19 @@ namespace BooksMVVM.ViewModel
         private MakeListPage makeListPage;
 
         /// <summary>
+        /// Used to access the database.
+        /// </summary>
+        MainDAL DAL;
+        /// <summary>
         /// Initializes a new instance of the MainPageViewModel class.
         /// </summary>
         /// <param name="addBookPage"></param>
         /// <param name="makeListPage"></param>
-        public MainPageViewModel(AddBookPage addBookPage, MakeListPage makeListPage)
+        public MainPageViewModel(AddBookPage addBookPage, MakeListPage makeListPage, MainDAL dal)
         {
             this.addBookPage = addBookPage;
             this.makeListPage = makeListPage;
+            DAL = dal;
 
             //Creates the commands bound to from the view.
             ToolbarItem_ADD_Command = new Command(ToolbarItem_ADD_Command_Execute);
@@ -46,7 +51,7 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         public void UpdateLocalBooks()
         {
-            Books = DatabaseHelper.RetrieveBooksFromDatabase(GetVisibleBooks);
+            Books = DAL.RetrieveBooksFromDatabase(GetVisibleBooks);
             ((Command)DeleteModeBtn_Command).ChangeCanExecute();
             ((Command)ClearBtn_Command).ChangeCanExecute();
             TotalAmount = CalculateTotalAmount();
@@ -124,8 +129,8 @@ namespace BooksMVVM.ViewModel
         {
             List<Book> changedBooks = Books.ToList();
             changedBooks.ForEach(book => book.IsVisible = false);
-            DatabaseHelper.UpdateBooksInDatabase(changedBooks);
-            Books = DatabaseHelper.RetrieveBooksFromDatabase(GetVisibleBooks);
+            DAL.UpdateBooksInDatabase(changedBooks);
+            Books = DAL.RetrieveBooksFromDatabase(GetVisibleBooks);
             TotalAmount = 0;
             ((Command)DeleteModeBtn_Command).ChangeCanExecute();
             ((Command)ClearBtn_Command).ChangeCanExecute();
@@ -193,9 +198,9 @@ namespace BooksMVVM.ViewModel
                 Book bookToChange = Books.ToList().Find(book => SelectedItem.ID == book.ID);
                 bookToChange.IsVisible = false;
                 //Pushes updates to the database.
-                DatabaseHelper.UpdateBookInDatabase(bookToChange);
+                DAL.UpdateBookInDatabase(bookToChange);
                 //Then updating the local representation aswell.
-                Books = DatabaseHelper.RetrieveBooksFromDatabase(GetVisibleBooks);
+                Books = DAL.RetrieveBooksFromDatabase(GetVisibleBooks);
                 TotalAmount -= SelectedItem.Price;
         }
 

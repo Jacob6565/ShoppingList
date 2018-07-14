@@ -17,13 +17,18 @@ namespace BooksMVVM.ViewModel
         private Comparison<Book> comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
 
         /// <summary>
+        /// Used to access the database.
+        /// </summary>
+        MainDAL DAL;
+        /// <summary>
         /// Initializes a new instance of the MakeListPageViewModel class.
         /// </summary>
-        public MakeListPageViewModel()
+        public MakeListPageViewModel(MainDAL dal)
         {
             //Creates the commands bound to from the view.           
             SortByName_Command = new Command(SortByName_Command_Execute, CanListBeSorted);
             SortByShop_Command = new Command(SortByShop_Command_Execute, CanListBeSorted);
+            DAL = dal;
         }
 
         /// <summary>
@@ -31,7 +36,7 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         public void UpdateLocalBooks()
         {
-            Books = DatabaseHelper.RetrieveBooksFromDatabase(comparison);
+            Books = DAL.RetrieveBooksFromDatabase(comparison);
 
             //Reevaluate if the commands can be executed.
             ((Command)SortByShop_Command).ChangeCanExecute();
@@ -62,8 +67,8 @@ namespace BooksMVVM.ViewModel
         {
             Book bookToChange = Books.ToList().Find(book => selectedBook.ID == book.ID);
             bookToChange.IsVisible = !bookToChange.IsVisible;
-            DatabaseHelper.UpdateBookInDatabase(bookToChange);
-            Books = DatabaseHelper.RetrieveBooksFromDatabase(comparison);
+            DAL.UpdateBookInDatabase(bookToChange);
+            Books = DAL.RetrieveBooksFromDatabase(comparison);
         }
 
         /// <summary>
@@ -82,7 +87,7 @@ namespace BooksMVVM.ViewModel
         private void SortByName_Command_Execute()
         {
             comparison = new Comparison<Book>((bookX, bookY) => bookX.Name.CompareTo(bookY.Name));
-            Books = DatabaseHelper.RetrieveBooksFromDatabase(comparison);
+            Books = DAL.RetrieveBooksFromDatabase(comparison);
         }
 
 
@@ -92,7 +97,7 @@ namespace BooksMVVM.ViewModel
         private void SortByShop_Command_Execute()
         {
             comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
-            Books = DatabaseHelper.RetrieveBooksFromDatabase(comparison);
+            Books = DAL.RetrieveBooksFromDatabase(comparison);
         }
 
         /// <summary>

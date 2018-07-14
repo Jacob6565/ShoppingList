@@ -29,14 +29,16 @@ namespace BooksMVVM.ViewModel
         private string Deleted { get => "Your product has been sucessfully removed"; }
         #endregion
 
+        MainDAL DAL; 
         /// <summary>
         /// Initialized a new instance of the AddBookPageViewModel class.
         /// </summary>
-        public AddBookPageViewModel()
+        public AddBookPageViewModel(MainDAL dal)
         {
             //Creates the commands bound to from the view.
             AddBookCommand = new Command(AddBookCommand_Execute, CanExecute);
             DeleteBookCommand = new Command(DeleteBookCommand_Execute, CanExecute);
+            DAL = dal;
         }
 
         private string _nameOfBookToAdd;
@@ -107,7 +109,7 @@ namespace BooksMVVM.ViewModel
             {
                 //For some reason I can't use .Equal, it does not work..
                 List<Book> booksToBeRemoved = Books.ToList().FindAll(book => book.Name.Equals(bookToRemove.Name));
-                DatabaseHelper.DeleteBooksFromDatabase(booksToBeRemoved);
+                DAL.DeleteBooksFromDatabase(booksToBeRemoved);
                 SendMessagingCenterMessage("ProductDeleted", Success, Deleted, Great);
                 ClearEntries();
             }
@@ -147,7 +149,7 @@ namespace BooksMVVM.ViewModel
             }
             else
             {
-                bool success = DatabaseHelper.AddBookToDatabase(bookToAdd);
+                bool success = DAL.AddBookToDatabase(bookToAdd);
 
                 if (success)
                 {                    
@@ -196,7 +198,7 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         public void UpdateLocalBooks()
         {
-            Books = DatabaseHelper.RetrieveBooksFromDatabase();
+            Books = DAL.RetrieveBooksFromDatabase();
         }
 
         /// <summary>
