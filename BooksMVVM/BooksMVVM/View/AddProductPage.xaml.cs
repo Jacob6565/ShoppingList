@@ -16,16 +16,16 @@ namespace BooksMVVM.View
     /// Describes the page for adding a product together with the corresponding .xaml file.
     /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddBookPage : ContentPage
+    public partial class AddProductPage : ContentPage
     {
         /// <summary>
         /// Stores the corresponding viewmodel
         /// </summary>
-        private IAddBookPageViewModel viewModel;
+        private IAddProductPageViewModel viewModel;
         /// <summary>
         /// Creates a new instance of the AddBookPage class.
         /// </summary>
-        public AddBookPage(IAddBookPageViewModel viewModel)
+        public AddProductPage(IAddProductPageViewModel viewModel)
         {
             InitializeComponent();
             this.viewModel = viewModel;
@@ -43,27 +43,27 @@ namespace BooksMVVM.View
             //parameters, in this case an array of strings. It listens to the message with name "ProductNotDeleted"
             //and performs the action described by the lambda expression.
             //Does not violate MVVM, since the ViewModel still knows nothing about the View.
-            MessagingCenter.Subscribe<AddBookPageViewModel, string[]>(this, "ProductNotDeleted", (senderViewModel, args) =>
+            MessagingCenter.Subscribe<AddProductPageViewModel, string[]>(this, "ProductNotDeleted", (senderViewModel, args) =>
             {
                 DisplayAlert(args[0], args[1], args[2]);
             });
 
-            MessagingCenter.Subscribe<AddBookPageViewModel, string[]>(this, "ProductAlreadyAdded", (senderViewModel, args) =>
+            MessagingCenter.Subscribe<AddProductPageViewModel, string[]>(this, "ProductAlreadyAdded", (senderViewModel, args) =>
             {
                 DisplayAlert(args[0], args[1], args[2]);
             });
 
-            MessagingCenter.Subscribe<AddBookPageViewModel, string[]>(this, "ProductAdded", (senderViewModel, args) =>
+            MessagingCenter.Subscribe<AddProductPageViewModel, string[]>(this, "ProductAdded", (senderViewModel, args) =>
             {
                 DisplayAlert(args[0], args[1], args[2]);
             });
 
-            MessagingCenter.Subscribe<AddBookPageViewModel, string[]>(this, "ProductNotAdded", (senderViewModel, args) =>
+            MessagingCenter.Subscribe<AddProductPageViewModel, string[]>(this, "ProductNotAdded", (senderViewModel, args) =>
             {
                 DisplayAlert(args[0], args[1], args[2]);
             });
 
-            MessagingCenter.Subscribe<AddBookPageViewModel, string[]>(this, "ProductDeleted", (senderViewModel, args) =>
+            MessagingCenter.Subscribe<AddProductPageViewModel, string[]>(this, "ProductDeleted", (senderViewModel, args) =>
             {
                 DisplayAlert(args[0], args[1], args[2]);
             });
@@ -76,7 +76,7 @@ namespace BooksMVVM.View
         {
             //Does not violate MVVM, since the ViewModel still knows nothing about the View.
             base.OnAppearing();
-            viewModel.UpdateLocalBooks();
+            viewModel.UpdateLocalProducts();
         }
 
     }

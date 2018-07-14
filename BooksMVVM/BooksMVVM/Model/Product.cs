@@ -7,7 +7,7 @@ namespace BooksMVVM.Model
     /// <summary>
     /// Class representing a product.
     /// </summary>
-    public class Book : IProduct //No need for INotifyPropertyChanged since ObservableCollection is used.
+    public class Product : IProduct //No need for INotifyPropertyChanged since ObservableCollection is used.
     {
         /// <summary>
         /// Used by the database for assigning primary keys to it's elements.
@@ -59,7 +59,7 @@ namespace BooksMVVM.Model
         /// <returns></returns>
         int IComparable.CompareTo(Object obj)
         {
-            Book compareObj = obj as Book;
+            Product compareObj = obj as Product;
             if (this.Name.Equals(compareObj.Name) && this.Shop.Equals(compareObj.Shop))
                 return 0;
             else

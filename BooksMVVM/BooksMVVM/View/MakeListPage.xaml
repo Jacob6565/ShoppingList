@@ -13,7 +13,7 @@
             </Grid.RowDefinitions>
             <!--Represents all the products from the database-->
             <ListView Grid.Row="0"
-                      ItemsSource="{Binding Books}"
+                      ItemsSource="{Binding Products}"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                       BackgroundColor="Transparent">
                 <!--Determines how each element should be represented-->

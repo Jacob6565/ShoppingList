@@ -13,7 +13,7 @@ namespace BooksMVVM.ViewModel
     /// <summary>
     /// ViewModel for the AddBookPage
     /// </summary>
-    public class AddBookPageViewModel : BaseViewModel, IAddBookPageViewModel 
+    public class AddProductPageViewModel : BaseViewModel, IAddProductPageViewModel 
     {
         #region IO-Messages
         private string Ok { get => "Ok!"; }
@@ -33,50 +33,50 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Initialized a new instance of the AddBookPageViewModel class.
         /// </summary>
-        public AddBookPageViewModel(MainDAL dal)
+        public AddProductPageViewModel(MainDAL dal)
         {
             //Creates the commands bound to from the view.
-            AddBookCommand = new Command(AddBookCommand_Execute, CanExecute);
-            DeleteBookCommand = new Command(DeleteBookCommand_Execute, CanExecute);
+            AddProductCommand = new Command(AddProductCommand_Execute, CanExecute);
+            DeleteProductCommand = new Command(DeleteProductCommand_Execute, CanExecute);
             DAL = dal;
         }
 
-        private string _nameOfBookToAdd;
-        private string _shopOfBookToAdd;
-        private string _priceOfBookToAdd;
+        private string _nameOfProductToAdd;
+        private string _shopOfProductToAdd;
+        private string _priceOfProductToAdd;
         
         /// <summary>
         /// Gets or sets the name of the product which is about to be added.
         /// </summary>
         /// This is bound to an entry in the view. 
         /// This allows for the viewmodel to access value of xaml element.
-        public string NameOfBookToAdd { get => _nameOfBookToAdd; set
+        public string NameOfProductToAdd { get => _nameOfProductToAdd; set
             {
-                _nameOfBookToAdd = value;
+                _nameOfProductToAdd = value;
                 //Notify dependent entities that this property has changed.
                 NotifyPropertyChanged();
                 //Indication that this value has been changed and that CanExecute should be reevaluated.
                 //Just like we call NotifyPropertyChanged to indicate that the property has changed.
-                ((Command)AddBookCommand).ChangeCanExecute();
-                ((Command)DeleteBookCommand).ChangeCanExecute();
+                ((Command)AddProductCommand).ChangeCanExecute();
+                ((Command)DeleteProductCommand).ChangeCanExecute();
 
             }
         }
         /// <summary>
         /// Gets or sets the shop of the product which is about to be added.
         /// </summary>
-        public string ShopOfBookToAdd { get => _shopOfBookToAdd; set
+        public string ShopOfProductToAdd { get => _shopOfProductToAdd; set
             {
-                _shopOfBookToAdd = value;
+                _shopOfProductToAdd = value;
                 NotifyPropertyChanged();
             }
         }
         /// <summary>
         /// Gets or sets the name of the product which is about to be added.
         /// </summary>
-        public string PriceOfBookToAdd { get => _priceOfBookToAdd; set
+        public string PriceOfProductToAdd { get => _priceOfProductToAdd; set
             {
-                _priceOfBookToAdd = value;
+                _priceOfProductToAdd = value;
                 NotifyPropertyChanged();
             }
         }
@@ -84,32 +84,32 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Command for adding the book to the database.
         /// </summary>
-        public ICommand AddBookCommand { get; set; }
+        public ICommand AddProductCommand { get; set; }
 
         /// <summary>
         /// Command for deleting the book from the database.
         /// </summary>
-        public ICommand DeleteBookCommand { get; set; }
+        public ICommand DeleteProductCommand { get; set; }
 
         /// <summary>
         /// Deletes the book from the database
         /// </summary>
-        private void DeleteBookCommand_Execute()
+        private void DeleteProductCommand_Execute()
         {
             //Creates the book to be removed.
-            Book bookToRemove = new Book()
+            Product productToRemove = new Product()
             {
-                Name = NameOfBookToAdd,
-                Shop = ShopOfBookToAdd,
-                Price = Convert.ToDouble(PriceOfBookToAdd),
+                Name = NameOfProductToAdd,
+                Shop = ShopOfProductToAdd,
+                Price = Convert.ToDouble(PriceOfProductToAdd),
                 IsVisible = false
             };
 
-            if (Books.Contains(bookToRemove))
+            if (Products.Contains(productToRemove))
             {
                 //For some reason I can't use .Equal, it does not work..
-                List<Book> booksToBeRemoved = Books.ToList().FindAll(book => book.Name.Equals(bookToRemove.Name));
-                DAL.DeleteBooksFromDatabase(booksToBeRemoved);
+                List<Product> productsToBeRemoved = Products.ToList().FindAll(product => product.Name.Equals(productToRemove.Name));
+                DAL.DeleteProductsFromDatabase(productsToBeRemoved);
                 SendMessagingCenterMessage("ProductDeleted", Success, Deleted, Great);
                 ClearEntries();
             }
@@ -133,23 +133,23 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Contains the logic for adding a product.
         /// </summary>
-        private void AddBookCommand_Execute()
+        private void AddProductCommand_Execute()
         {
-            Book bookToAdd = new Book()
+            Product productToAdd = new Product()
             {
-                Name = NameOfBookToAdd,
-                Shop = ShopOfBookToAdd,
-                Price = Convert.ToDouble(PriceOfBookToAdd),
+                Name = NameOfProductToAdd,
+                Shop = ShopOfProductToAdd,
+                Price = Convert.ToDouble(PriceOfProductToAdd),
                 IsVisible = false
             };
 
-            if (Books.Contains(bookToAdd))
+            if (Products.Contains(productToAdd))
             {
                SendMessagingCenterMessage("ProductAlreadyAdded", Oops, AlreadyAdded, Ok);
             }
             else
             {
-                bool success = DAL.AddBookToDatabase(bookToAdd);
+                bool success = DAL.AddProductToDatabase(productToAdd);
 
                 if (success)
                 {                    
@@ -170,9 +170,9 @@ namespace BooksMVVM.ViewModel
         /// <returns></returns>
         private bool ErrorCheckingAddingProduct()
         {
-            if (!String.IsNullOrWhiteSpace(NameOfBookToAdd))
+            if (!String.IsNullOrWhiteSpace(NameOfProductToAdd))
             {
-                bool nameEntryResult = NameOfBookToAdd.All(c => Char.IsLetterOrDigit(c) || c == '-' || c == '(' || c == ')');
+                bool nameEntryResult = NameOfProductToAdd.All(c => Char.IsLetterOrDigit(c) || c == '-' || c == '(' || c == ')');
 
                 return nameEntryResult;
             }
@@ -188,17 +188,17 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         private void ClearEntries()
         {
-            NameOfBookToAdd = String.Empty;
-            ShopOfBookToAdd = String.Empty;
-            PriceOfBookToAdd = String.Empty;
+            NameOfProductToAdd = String.Empty;
+            ShopOfProductToAdd = String.Empty;
+            PriceOfProductToAdd = String.Empty;
         }
 
         /// <summary>
         /// Used to update the local representation of a table in the database.
         /// </summary>
-        public void UpdateLocalBooks()
+        public void UpdateLocalProducts()
         {
-            Books = DAL.RetrieveBooksFromDatabase();
+            Products = DAL.RetrieveProductsFromDatabase();
         }
 
         /// <summary>

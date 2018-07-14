@@ -17,15 +17,15 @@ namespace BooksMVVM
         /// </summary>
         /// <param name="comparison"></param>
         /// <returns></returns>
-        public ObservableCollection<Book> RetrieveBooksFromDatabase(Comparison<Book> comparison)
+        public ObservableCollection<Product> RetrieveProductsFromDatabase(Comparison<Product> comparison)
         {
-            ObservableCollection<Book> returnValue;
+            ObservableCollection<Product> returnValue;
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-                conn.CreateTable<Book>();
-                var temp = conn.Table<Book>().ToList();
+                conn.CreateTable<Product>();
+                var temp = conn.Table<Product>().ToList();
                 temp.Sort(comparison);
-                returnValue = new ObservableCollection<Book>(temp);
+                returnValue = new ObservableCollection<Product>(temp);
 
             }
             return returnValue;
@@ -36,13 +36,13 @@ namespace BooksMVVM
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public ObservableCollection<Book> RetrieveBooksFromDatabase(Func<Book, bool> predicate)
+        public ObservableCollection<Product> RetrieveBooksFromDatabase(Func<Product, bool> predicate)
         {
-            ObservableCollection<Book> returnValue;
+            ObservableCollection<Product> returnValue;
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-                conn.CreateTable<Book>();
-                returnValue = new ObservableCollection<Book>(conn.Table<Book>().Where(predicate));
+                conn.CreateTable<Product>();
+                returnValue = new ObservableCollection<Product>(conn.Table<Product>().Where(predicate));
 
             }
             return returnValue;
@@ -52,13 +52,13 @@ namespace BooksMVVM
         /// Retrieves the products from the database.
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<Book> RetrieveBooksFromDatabase()
+        public ObservableCollection<Product> RetrieveProductsFromDatabase()
         {
-            ObservableCollection<Book> returnValue;
+            ObservableCollection<Product> returnValue;
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-                conn.CreateTable<Book>();
-                returnValue = new ObservableCollection<Book>(conn.Table<Book>().ToList());
+                conn.CreateTable<Product>();
+                returnValue = new ObservableCollection<Product>(conn.Table<Product>().ToList());
 
             }
             return returnValue;
@@ -67,38 +67,38 @@ namespace BooksMVVM
         /// <summary>
         /// Updates the corresponding book in the database, however it does not check if it already exists.
         /// </summary>
-        /// <param name="book"></param>
-        public void UpdateBookInDatabase(Book book)
+        /// <param name="product"></param>
+        public void UpdateProductInDatabase(Product product)
         {
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-               conn.Update(book);
+               conn.Update(product);
             }
         }
 
         /// <summary>
         /// Updates the corresponding books in the database, however it does not check if they already exists.
         /// </summary>
-        /// <param name="book"></param>
-        public void UpdateBooksInDatabase(List<Book> book)
+        /// <param name="product"></param>
+        public void UpdateProductsInDatabase(List<Product> product)
         {
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-                conn.UpdateAll(book);
+                conn.UpdateAll(product);
             }
         }
 
         /// <summary>
         /// Adds the corresponding book to the database, however it does not check if the table is created.
         /// </summary>
-        /// <param name="book"></param>
+        /// <param name="products"></param>
         /// <returns></returns>
-        public bool AddBookToDatabase(Book book)
+        public bool AddProductToDatabase(Product product)
         {
             int resultFromInsertion = 0;
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-                resultFromInsertion = conn.Insert(book);    
+                resultFromInsertion = conn.Insert(product);    
             }
             return resultFromInsertion > 0;
         }
@@ -106,14 +106,14 @@ namespace BooksMVVM
         /// <summary>
         /// Deletes the corresponding product in the database, however it does not check if it exists.
         /// </summary>
-        /// <param name="books"></param>
-        public void DeleteBooksFromDatabase(List<Book> books)
+        /// <param name="products"></param>
+        public void DeleteProductsFromDatabase(List<Product> products)
         {
             using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.DB_PATH))
             {
-               foreach(Book book in books)
+               foreach(Product product in products)
                 {
-                    conn.Delete(book);
+                    conn.Delete(product);
                 }
             }
         }

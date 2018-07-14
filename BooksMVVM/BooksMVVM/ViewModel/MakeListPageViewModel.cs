@@ -14,7 +14,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Used to determines how to sort the ListView. Standard is by shop.
         /// </summary>
-        private Comparison<Book> comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
+        private Comparison<Product> comparison = new Comparison<Product>((productX, productY) => productX.Shop.CompareTo(productY.Shop));
 
         /// <summary>
         /// Used to access the database.
@@ -34,41 +34,41 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Used to update the local representation of the database.
         /// </summary>
-        public void UpdateLocalBooks()
+        public void UpdateLocalProducts()
         {
-            Books = DAL.RetrieveBooksFromDatabase(comparison);
+            Products = DAL.RetrieveProductsFromDatabase(comparison);
 
             //Reevaluate if the commands can be executed.
             ((Command)SortByShop_Command).ChangeCanExecute();
             ((Command)SortByName_Command).ChangeCanExecute();
         }
 
-        private Book _selectedItem;
+        private Product _selectedItem;
 
         /// <summary>
         /// Gets or sets the currently selected item in the ListView.
         /// </summary>
-        public Book SelectedItem
+        public Product SelectedItem
         {
             get => _selectedItem;
             set
             {
                 _selectedItem = value;
                 NotifyPropertyChanged();
-                InvertVisibilityOfBook(value);
+                InvertVisibilityOfProduct(value);
             }
         }
 
         /// <summary>
         /// Inverts the visibility of the currently selected book and updates db.
         /// </summary>
-        /// <param name="selectedBook"></param>
-        private void InvertVisibilityOfBook(Book selectedBook)
+        /// <param name="selectedProduct"></param>
+        private void InvertVisibilityOfProduct(Product selectedProduct)
         {
-            Book bookToChange = Books.ToList().Find(book => selectedBook.ID == book.ID);
-            bookToChange.IsVisible = !bookToChange.IsVisible;
-            DAL.UpdateBookInDatabase(bookToChange);
-            Books = DAL.RetrieveBooksFromDatabase(comparison);
+            Product productToChange = Products.ToList().Find(product => selectedProduct.ID == product.ID);
+            productToChange.IsVisible = !productToChange.IsVisible;
+            DAL.UpdateProductInDatabase(productToChange);
+            Products = DAL.RetrieveProductsFromDatabase(comparison);
         }
 
         /// <summary>
@@ -86,8 +86,8 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         private void SortByName_Command_Execute()
         {
-            comparison = new Comparison<Book>((bookX, bookY) => bookX.Name.CompareTo(bookY.Name));
-            Books = DAL.RetrieveBooksFromDatabase(comparison);
+            comparison = new Comparison<Product>((productX, productY) => productX.Name.CompareTo(productY.Name));
+            Products = DAL.RetrieveProductsFromDatabase(comparison);
         }
 
 
@@ -96,8 +96,8 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         private void SortByShop_Command_Execute()
         {
-            comparison = new Comparison<Book>((bookX, bookY) => bookX.Shop.CompareTo(bookY.Shop));
-            Books = DAL.RetrieveBooksFromDatabase(comparison);
+            comparison = new Comparison<Product>((productX, productY) => productX.Shop.CompareTo(productY.Shop));
+            Products = DAL.RetrieveProductsFromDatabase(comparison);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace BooksMVVM.ViewModel
         /// <returns></returns>
         private bool CanListBeSorted()
         {
-            return Books.Count == 0 ? false : true;
+            return Products.Count == 0 ? false : true;
         }
 
     }

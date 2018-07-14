@@ -5,8 +5,8 @@ namespace BooksMVVM.ViewModel
 {
     public interface IMakeListPageViewModel
     {
-        void UpdateLocalBooks();
-        Book SelectedItem { get; set; }
+        void UpdateLocalProducts();
+        Product SelectedItem { get; set; }
         ICommand SortByName_Command { get; set; }
         ICommand SortByShop_Command { get; set; }
     }

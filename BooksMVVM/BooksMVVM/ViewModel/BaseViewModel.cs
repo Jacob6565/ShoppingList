@@ -10,11 +10,11 @@ namespace BooksMVVM.ViewModel
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Book> books = new ObservableCollection<Book>();
+        private ObservableCollection<Product> products = new ObservableCollection<Product>();
 
-        public ObservableCollection<Book> Books { get => books; set
+        public ObservableCollection<Product> Products { get => products; set
             {
-                books = value;
+                products = value;
                 NotifyPropertyChanged();
             }
         }

@@ -18,10 +18,10 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Delegate used to retrieve visible books.
         /// </summary>
-        private Func<Book, bool> GetVisibleBooks = new Func<Book, bool>(book => book.IsVisible == true);
+        private Func<Product, bool> GetVisibleProducts = new Func<Product, bool>(product => product.IsVisible == true);
 
         //The two other pages, used to navigate.
-        private AddBookPage addBookPage;
+        private AddProductPage addProductPage;
         private MakeListPage makeListPage;
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         /// <param name="addBookPage"></param>
         /// <param name="makeListPage"></param>
-        public MainPageViewModel(AddBookPage addBookPage, MakeListPage makeListPage, MainDAL dal)
+        public MainPageViewModel(AddProductPage addProductPage, MakeListPage makeListPage, MainDAL dal)
         {
-            this.addBookPage = addBookPage;
+            this.addProductPage = addProductPage;
             this.makeListPage = makeListPage;
             DAL = dal;
 
@@ -49,9 +49,9 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Used to update the data to be represented in the listview.
         /// </summary>
-        public void UpdateLocalBooks()
+        public void UpdateLocalProducts()
         {
-            Books = DAL.RetrieveBooksFromDatabase(GetVisibleBooks);
+            Products = DAL.RetrieveBooksFromDatabase(GetVisibleProducts);
             ((Command)DeleteModeBtn_Command).ChangeCanExecute();
             ((Command)ClearBtn_Command).ChangeCanExecute();
             TotalAmount = CalculateTotalAmount();
@@ -78,8 +78,7 @@ namespace BooksMVVM.ViewModel
         /// <summary>
         /// Used to perform navigation between pages.
         /// </summary>
-        public INavigation Navigation { get => navigation; set => navigation = value; }
-        private INavigation navigation;
+        public INavigation Navigation { get; set; }
 
 
         /// <summary>
@@ -117,7 +116,7 @@ namespace BooksMVVM.ViewModel
         /// <returns></returns>
         private bool DeleteModeBtn_Command_CanExecute()
         {
-            bool returnvalue = Books.Count == 0 ? false : true;
+            bool returnvalue = Products.Count == 0 ? false : true;
             if (!returnvalue) IsDeleteMode = false;
             return returnvalue;
         }
@@ -127,10 +126,10 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         private void ClearBtn_Command_Execute()
         {
-            List<Book> changedBooks = Books.ToList();
+            List<Product> changedBooks = Products.ToList();
             changedBooks.ForEach(book => book.IsVisible = false);
-            DAL.UpdateBooksInDatabase(changedBooks);
-            Books = DAL.RetrieveBooksFromDatabase(GetVisibleBooks);
+            DAL.UpdateProductsInDatabase(changedBooks);
+            Products = DAL.RetrieveBooksFromDatabase(GetVisibleProducts);
             TotalAmount = 0;
             ((Command)DeleteModeBtn_Command).ChangeCanExecute();
             ((Command)ClearBtn_Command).ChangeCanExecute();
@@ -142,7 +141,7 @@ namespace BooksMVVM.ViewModel
         /// <returns></returns>
         private bool ClearBtn_Command_CanExecute()
         {
-            return Books.Count == 0 ? false : true;
+            return Products.Count == 0 ? false : true;
         }
 
         /// <summary>
@@ -150,7 +149,7 @@ namespace BooksMVVM.ViewModel
         /// </summary>
         private void ToolbarItem_ADD_Command_Execute()
         {
-            Navigation.PushAsync(addBookPage);
+            Navigation.PushAsync(addProductPage);
         }
 
         /// <summary>
@@ -161,12 +160,12 @@ namespace BooksMVVM.ViewModel
             Navigation.PushAsync(makeListPage);
         }
 
-        private Book _selectedItem;
+        private Product _selectedItem;
 
         /// <summary>
         /// Gets or sets the currently selected item in the ListView.
         /// </summary>
-        public Book SelectedItem
+        public Product SelectedItem
         {
             get => _selectedItem;
             set
@@ -192,16 +191,16 @@ namespace BooksMVVM.ViewModel
         /// Defines the behaviour of selecting an item in the listview if delete mode is enabled.
         /// </summary>
         /// <param name="SelectedItem"></param>
-        private void IfDeleteMode(Book SelectedItem)
-        {            
-                //Finds the selected product.
-                Book bookToChange = Books.ToList().Find(book => SelectedItem.ID == book.ID);
-                bookToChange.IsVisible = false;
-                //Pushes updates to the database.
-                DAL.UpdateBookInDatabase(bookToChange);
-                //Then updating the local representation aswell.
-                Books = DAL.RetrieveBooksFromDatabase(GetVisibleBooks);
-                TotalAmount -= SelectedItem.Price;
+        private void IfDeleteMode(Product SelectedItem)
+        {
+            //Finds the selected product.
+            Product bookToChange = Products.ToList().Find(book => SelectedItem.ID == book.ID);
+            bookToChange.IsVisible = false;
+            //Pushes updates to the database.
+            DAL.UpdateProductInDatabase(bookToChange);
+            //Then updating the local representation aswell.
+            Products = DAL.RetrieveBooksFromDatabase(GetVisibleProducts);
+            TotalAmount -= SelectedItem.Price;
         }
 
         /// <summary>
@@ -211,7 +210,7 @@ namespace BooksMVVM.ViewModel
         private double CalculateTotalAmount()
         {
             double returnValue = 0;
-            foreach (Book book in Books)
+            foreach (Product book in Products)
             {
                 returnValue += book.Price;
             }

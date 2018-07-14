@@ -34,14 +34,14 @@ namespace BooksMVVM
 
             //Instansiates the different viewmodels and pages.
             MainDAL dal = new MainDAL();
-            IAddBookPageViewModel addBookPageViewModel = new AddBookPageViewModel(dal);
-            AddBookPage addBookPage = new AddBookPage(addBookPageViewModel);
+            IAddProductPageViewModel addProductPageViewModel = new AddProductPageViewModel(dal);
+            AddProductPage addproductPage = new AddProductPage(addProductPageViewModel);
             IMakeListPageViewModel makeListPageViewModel = new MakeListPageViewModel(dal);
             MakeListPage makeListPage = new MakeListPage(makeListPageViewModel);
             //Not sure if this violates MVVM, but it needs them to navigate between pages.
             //One way to fix this could maybe be to simple have to codebehind handle the navigation
             //but I am not sure if it violates MVVM.
-            IMainPageViewModel mainPageViewModel = new MainPageViewModel(addBookPage, makeListPage, dal);
+            IMainPageViewModel mainPageViewModel = new MainPageViewModel(addproductPage, makeListPage, dal);
             MainPage mainPage = new MainPage(mainPageViewModel);
             NavigationPage navigationPage = new NavigationPage(mainPage)
             {

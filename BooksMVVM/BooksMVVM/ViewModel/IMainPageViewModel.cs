@@ -12,8 +12,8 @@ namespace BooksMVVM.ViewModel
         ICommand ToolbarItem_FILL_Command { get; set; }
         ICommand ClearBtn_Command { get; set; }
         ICommand DeleteModeBtn_Command { get; set; }
-        Book SelectedItem { get; set; }
-        void UpdateLocalBooks();
+        Product SelectedItem { get; set; }
+        void UpdateLocalProducts();
 
 
     }

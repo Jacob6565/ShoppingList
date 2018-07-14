@@ -29,7 +29,7 @@ namespace BooksMVVM.View
             base.OnAppearing();
             //Updates the local representation of the products,
             //since they can have been changed by other pages.
-            viewModel.UpdateLocalBooks();
+            viewModel.UpdateLocalProducts();
         }
     }
 }

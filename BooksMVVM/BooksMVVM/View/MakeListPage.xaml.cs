@@ -30,7 +30,7 @@ namespace BooksMVVM.View
         {
             //Does not violate MVVM since ViewModel still does not know about the view.
             base.OnAppearing();
-            viewModel.UpdateLocalBooks();                   
+            viewModel.UpdateLocalProducts();                   
         }
 
 

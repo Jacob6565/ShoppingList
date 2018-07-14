@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
     <!--ListView's itemsource is the local representation of the products from the database-->
     <ListView Grid.Row="0"
-              ItemsSource="{Binding Books}"
+              ItemsSource="{Binding Products}"
               SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}"
               Style="{StaticResource listViewStyle}">
         <!--Defining how each element in the listview should look like-->
