@@ -29,3 +29,6 @@ Slette alle navne på xaml elementer, da man ikke referer til dem længere.
 Det skal være sådan, at når deletemode og clearbtn mode bliver disablet, så skal IsDeletemode også sættes til false. Det skal også være sådan, at man faktisk kan se at deletemode er aktiv.
 
 Skal lige tjekke omkring det med hvordan .Contain virker, såen hvordan den finder ud om der allerede er en i listen, såen bruger den compareto eller equals
+
+Udføre testing, med Moq osv.
+
